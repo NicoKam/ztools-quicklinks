@@ -1,0 +1,35 @@
+ObjC.import('AppKit');
+ObjC.import('CoreGraphics');
+ObjC.bindFunction('CFArrayGetValueAtIndex', ['id', ['void *', 'long']]);
+
+function describeApplication(app) {
+  if (!app) return null;
+  return {
+    name: ObjC.unwrap(app.localizedName) || '',
+    bundleId: ObjC.unwrap(app.bundleIdentifier) || '',
+    appPath: app.bundleURL ? ObjC.unwrap(app.bundleURL.path) : '',
+  };
+}
+
+// ZTools 自身（含 uTools 兼容场景）不参与“前台编辑器”判定。
+function isHostApp(app) {
+  return app && (/^(?:utools|ztools)(?: helper.*)?$/i.test(app.name) || /(?:^|\.)(?:utools|ztools|z-tools)$/i.test(app.bundleId));
+}
+
+function getInvocationApplication() {
+  var front = describeApplication($.NSWorkspace.sharedWorkspace.frontmostApplication);
+  if (front && !isHostApp(front)) return front;
+  var windows = $.CGWindowListCopyWindowInfo($.kCGWindowListOptionOnScreenOnly, $.kCGNullWindowID);
+  // JXA owns the bridged CoreFoundation return value. Calling CFRelease here
+  // double-frees it and crashes osascript when ZTools is the frontmost app.
+  var count = Number($.CFArrayGetCount(windows));
+  for (var index = 0; index < count; index++) {
+    var item = ObjC.deepUnwrap($.CFArrayGetValueAtIndex(windows, index));
+    if (item.kCGWindowLayer !== 0) continue;
+    var app = describeApplication($.NSRunningApplication.runningApplicationWithProcessIdentifier(item.kCGWindowOwnerPID));
+    if (app && !isHostApp(app)) return app;
+  }
+  return null;
+}
+
+JSON.stringify(getInvocationApplication());

@@ -1,0 +1,177 @@
+.root {
+  position: relative;
+  height: 100vh;
+  min-height: 100vh;
+  --border-color: rgba(180, 180, 180, 0.3);
+
+  * {
+    box-sizing: border-box;
+  }
+
+  .container {
+    display: flex;
+    height: 100%;
+    overflow: hidden;
+    flex-direction: column;
+  }
+
+  .groupBar {
+    flex-shrink: 0;
+  }
+
+  .center {
+    position: relative;
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .list {
+    min-width: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+    flex: 1;
+    flex-shrink: 0;
+
+    .empty {
+      padding: 12px;
+      font-size: 12px;
+      color: #999;
+      text-align: center;
+    }
+
+    .item {
+      overflow: hidden;
+      padding: 2px 12px;
+      border-top: 1px solid var(--border-color);
+
+      .itemContent {
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+      }
+
+      .nameRow {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .codeIcon {
+        flex-shrink: 0;
+        color: #999;
+        font-size: 12px;
+      }
+
+      // 右侧的数字，用于
+      .itemTips {
+        font-size: 24px;
+        flex-shrink: 0;
+        color: rgba(180, 180, 180, 0.5);
+      }
+
+      .name {
+        flex: 1;
+        min-width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 14px;
+        line-height: 1.5;
+        position: relative;
+        padding-left: 16px;
+
+        &::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background-color: var(--group-color, #999);
+        }
+      }
+
+      .tips {
+        font-size: 12px;
+        color: #999;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      &:hover {
+        background-color: rgba(200, 200, 200, 0.2);
+      }
+
+      &.selected {
+        background-color: rgba(200, 200, 200, 0.3);
+      }
+    }
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+  }
+
+  .detail {
+    min-width: 0;
+    position: relative;
+    flex-shrink: 0;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+    border-left: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+
+    .preview {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 12px;
+      white-space: pre-wrap;
+      font-family: monospace;
+      word-break: break-word;
+    }
+
+    .info {
+      flex-shrink: 0;
+      padding: 2px 12px;
+      border-top: 1px solid var(--border-color);
+    }
+  }
+
+  .footer {
+    background-color: rgba(180, 180, 180, 0.1);
+    height: 40px;
+    flex-shrink: 0;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 12px;
+  }
+}
+
+.split {
+  color: #999;
+  height: 1.5em;
+  border-left: 1px solid var(--border-color);
+}
+
+.timeRange {
+  padding: 2px 12px;
+  margin-top: 4px;
+  color: #999;
+  font-size: 12px;
+
+  &:not(:first-child) {
+    margin-top: 8px;
+  }
+}

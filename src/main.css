@@ -1,0 +1,45 @@
+:root {
+  /* ZTools 会把用户选择的主色注入为 --plugin-primary-color */
+  --blue: var(--plugin-primary-color, rgb(88, 164, 246));
+  --border-color: rgba(180, 180, 180, 0.3);
+  --light: #fff;
+  --background-color: #f4f4f4;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--background-color);
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: var(--background-color);
+}
+
+::-webkit-scrollbar-thumb {
+  border-color: var(--background-color);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #303133;
+  }
+
+  body {
+    color: #fff;
+    --color: #fff;
+  }
+
+  ::-webkit-scrollbar-track-piece {
+    background-color: var(--background-color);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #666;
+    border-color: var(--background-color);
+  }
+}
